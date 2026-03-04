@@ -61,16 +61,16 @@ const portfolioData = {
             title: "Portfolio Website",
             description: "A personal portfolio website built with HTML, CSS, and JavaScript to showcase my projects and skills.",
             technologies: ["HTML", "CSS", "JavaScript"],
-            github: "https://github.com/yourusername/portfolio",
-            live: "https://yourportfolio.com",
+            github: "https://github.com/UDAYRAUT57UA28/Portfolio",
+            live: "https://udayraut57ua28.github.io/Portfolio/",
             image: "assets/images/portfolio.jpg" // Optional
         },
         {
             title: "AI-Powered Personal Finance Assistant",
             description: "A simple Finance Assistant application to organize daily/Monthly finance with features like add income, expense, and set goal and visualize it graphs.",
             technologies: ["Python"],
-            github: "https://github.com/yourusername/task-manager",
-            live: "https://yourtaskmanager.com",
+            github: "https://github.com/UDAYRAUT57UA28",
+            live: "https://github.com/UDAYRAUT57UA28",
             image: "assets/images/finance.jpg" // Optional
         }
         // Add more projects here
