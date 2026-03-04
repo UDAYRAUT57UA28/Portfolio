@@ -57,7 +57,6 @@ function loadHeroSection() {
     const socialIcons = {
         github: 'fab fa-github',
         linkedin: 'fab fa-linkedin',
-        twitter: 'fab fa-twitter',
         instagram: 'fab fa-instagram'
     };
     
@@ -293,8 +292,8 @@ function initializeParticles() {
     canvas.height = window.innerHeight;
     
     const particles = [];
-    const followingParticleCount = 20; // Increased particles that follow cursor
-    const floatingParticleCount = 25; // Particles that float independently
+    const followingParticleCount = 20; // Particles that follow cursor
+    const floatingParticleCount = 60; // Increased floating particles that move independently
     const mouse = { x: null, y: null };
     
     // Get particle colors based on theme
@@ -408,18 +407,18 @@ function initializeParticles() {
         constructor() {
             this.x = Math.random() * canvas.width;
             this.y = Math.random() * canvas.height;
-            this.size = Math.random() * 4 + 1.5;
-            this.speedX = (Math.random() - 0.5) * 0.8;
-            this.speedY = (Math.random() - 0.5) * 0.8;
+            this.size = Math.random() * 5 + 2; // Slightly larger crystals
+            this.speedX = (Math.random() - 0.5) * 1.2; // Faster movement
+            this.speedY = (Math.random() - 0.5) * 1.2;
             this.colors = getParticleColors();
             this.colorIndex = 0;
             this.colorTransition = 0;
-            this.colorChangeSpeed = 0.01;
+            this.colorChangeSpeed = 0.008; // Slower color transitions
             this.angle = Math.random() * Math.PI * 2;
-            this.angleSpeed = (Math.random() - 0.5) * 0.03;
+            this.angleSpeed = (Math.random() - 0.5) * 0.04; // Faster rotation
             this.type = 'floating';
             this.pulsePhase = Math.random() * Math.PI * 2;
-            this.pulseSpeed = 0.02;
+            this.pulseSpeed = 0.03; // Faster pulse
         }
         
         update() {
@@ -485,12 +484,16 @@ function initializeParticles() {
         }
         
         draw() {
-            const currentSize = this.size * (1 + Math.sin(this.pulsePhase) * 0.2);
+            const currentSize = this.size * (1 + Math.sin(this.pulsePhase) * 0.3);
             const currentColor = this.getCurrentColor();
             
             ctx.save();
             ctx.translate(this.x, this.y);
             ctx.rotate(this.angle);
+            
+            // Draw outer glow first
+            ctx.shadowBlur = 15;
+            ctx.shadowColor = currentColor;
             
             // Draw crystal ball (hexagon shape)
             ctx.beginPath();
@@ -508,20 +511,30 @@ function initializeParticles() {
             
             // Gradient fill
             const gradient = ctx.createRadialGradient(0, 0, 0, 0, 0, currentSize);
-            gradient.addColorStop(0, currentColor.replace(/[\d.]+\)$/, '0.8)'));
-            gradient.addColorStop(1, currentColor);
+            gradient.addColorStop(0, currentColor.replace(/[\d.]+\)$/, '0.9)'));
+            gradient.addColorStop(0.7, currentColor);
+            gradient.addColorStop(1, currentColor.replace(/[\d.]+\)$/, '0.6)'));
             ctx.fillStyle = gradient;
             ctx.fill();
             
-            // Outer glow
-            ctx.strokeStyle = currentColor.replace(/[\d.]+\)$/, '0.9)');
+            // Outer glow stroke
+            ctx.strokeStyle = currentColor.replace(/[\d.]+\)$/, '1)');
             ctx.lineWidth = 2;
             ctx.stroke();
             
+            // Reset shadow
+            ctx.shadowBlur = 0;
+            
             // Inner sparkle
             ctx.beginPath();
-            ctx.arc(-currentSize * 0.3, -currentSize * 0.3, currentSize * 0.3, 0, Math.PI * 2);
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+            ctx.arc(-currentSize * 0.3, -currentSize * 0.3, currentSize * 0.4, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+            ctx.fill();
+            
+            // Additional sparkle points
+            ctx.beginPath();
+            ctx.arc(currentSize * 0.2, currentSize * 0.2, currentSize * 0.2, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
             ctx.fill();
             
             ctx.restore();
